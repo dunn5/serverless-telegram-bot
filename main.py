@@ -1,6 +1,7 @@
 import os
 import telegram
 import googletrans
+import json
 
 bot = telegram.Bot(token=os.environ["TELEGRAM_TOKEN"])
 
@@ -9,10 +10,11 @@ translator = Translator()
 
 def webhook(request):
     if request.method == "POST":
+        #update = telegram.Update.de_json(request.get_json(force=True), bot)
         update = telegram.Update.de_json(request.get_json(force=True), bot)
         chat_id = update.message.chat.id
         # Reply with the same message
-        result = "" + translator.translate(update.message.text, dest='en').text
+        result = translator.translate(update.message.text,dest='en').text
         if (result == update.message.text):
             result = "English: " + update.message.text + chr(10) + "Russian: " + translator.translate(update.message.text, src='en', dest='ru').text
         else:

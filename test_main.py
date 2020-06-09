@@ -11,7 +11,7 @@ app = flask.Flask(__name__)
 
 class ClientTestCase(unittest.TestCase):
     def test_webhook(self):
-        with open("test_message.json") as f:
+        with open("test_message.json", encoding="UTF_8") as f:
             with patch.object(Bot, "sendMessage", return_value="test message"):
                 with app.test_request_context(method="POST", data=f):
                     r = flask.request
